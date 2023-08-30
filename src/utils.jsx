@@ -18,7 +18,6 @@ export function initBoard() {
     console.log("Init with : ", numInit);
     while (numInit != 0) {
         const [x, y] = getRandomCoord(tmpBoard);
-        console.log(x,y)
         tmpBoard[coordToInt(x, y)] = 2;
         numInit--;
     }
