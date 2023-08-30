@@ -7,6 +7,7 @@ export default function Board() {
     const movedBoard = useRef([]);
 
     useEffect(() => {
+        console.table(board)
         const handleKey = (e) => {
             switch(e.key) {
                 case 'w':
@@ -122,10 +123,6 @@ export default function Board() {
                     })
                 }
             </div>
-            <button onClick={() => {handleMove('left');}}>left</button>
-            <button onClick={() => handleMove('right')}>right</button>
-            <button onClick={() => handleMove('up')}>up</button>
-            <button onClick={() => handleMove('down')}>down</button>
         </>
     )
 }
