@@ -1,5 +1,6 @@
-import Board from './Board.jsx'
+import Board from '../Board/Board.jsx'
 export default function Game() {
+
     return (
         <>
             <Board></Board>
