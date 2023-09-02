@@ -26,11 +26,17 @@
 
 .square-animation {
     animation-name: example;
-    animation-duration: 4s;
+    animation-duration: 0.5s;
 }
 
-/* @keyframes example {
-    from {background-color: red;}
-    to {background-color: yellow;}
-} */
+@keyframes example {
+    from {
+        /* transform: translateX(0%); */
+        top: var(--initialLoc)
+    }
+    to {
+        /* transform: translateX(100%); */
+        top: var(--finalLoc)
+    }
+}
   

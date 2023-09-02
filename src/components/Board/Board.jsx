@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
-import { GAME_SIZE, addSquare, initBoard } from '../utils.jsx';
-import Square from './Square.jsx';
+import { GAME_SIZE, addSquare, initBoard } from '../../utils.jsx';
+import Grid from '../Grid/Grid.jsx';
+// https://www.freecodecamp.org/news/how-to-make-2048-game-in-react/
+// https://blog.logrocket.com/accessing-previous-props-state-react-hooks/
 
 export default function Board() {
     const [board, setBoard] = useState(initBoard({}));
-    const movedBoard = useRef([]);
+    const movedBoard = useRef({});
 
     useEffect(() => {
-        console.table(board)
         const handleKey = (e) => {
             switch(e.key) {
                 case 'w':
@@ -29,7 +30,7 @@ export default function Board() {
         document.addEventListener("keydown", handleKey);
         return () => {
             document.removeEventListener("keydown", handleKey);
-        };
+        }
     }, [board]);
 
     function handleMove(dir) {
@@ -52,7 +53,7 @@ export default function Board() {
             }
         }
         let nextBoard = JSON.parse(JSON.stringify(board));
-        movedBoard.current = [];
+        movedBoard.current = {};
         let target;
         for (let i = 0; i < GAME_SIZE; i++) {
             for (let j = 0; j < GAME_SIZE; j++) {
@@ -93,12 +94,12 @@ export default function Board() {
                     nextBoard[target] *= 2;
                     nextBoard[curr] = 0;
                     updateTarget();
-                    movedBoard.current.push(curr, target);
+                    movedBoard.current[curr] = target;
                 }
                 else if (nextBoard[target] === 0) {
                     nextBoard[target] = nextBoard[curr];
                     nextBoard[curr] = 0;
-                    movedBoard.current.push(curr, target);
+                    movedBoard.current[curr] = target;
                 }
                 else if (nextBoard[curr] !== nextBoard[target]) {
                     updateTarget();
@@ -107,21 +108,17 @@ export default function Board() {
                     }
                     nextBoard[target] = nextBoard[curr];
                     nextBoard[curr] = 0;
-                    movedBoard.current.push(curr, target);
+                    movedBoard.current[curr] = target;
                 }
             }
         }
-        movedBoard.current.length > 0 ? setBoard(addSquare(nextBoard)) : setBoard(nextBoard);
+        Object.keys(movedBoard.current).length > 0 ? setBoard(addSquare(nextBoard)) : setBoard(nextBoard);
     }
   
     return (
         <>
             <div className='container'>
-                {
-                    Object.entries(board).map(([k, v], i) => {
-                        return <Square key={i} loc={k} num={v}></Square>
-                    })
-                }
+                <Grid grid={board}></Grid>
             </div>
         </>
     )
